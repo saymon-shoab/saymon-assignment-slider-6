@@ -38,13 +38,14 @@ const getImages = (query) => {
 let slideIndex = 0;
 const selectItem = (event, img) => {
   let element = event.target;
-  element.classList.add('added');
  
   let item = sliders.indexOf(img);
   if (item === -1) {
     sliders.push(img);
+    element.classList.add('added');
   } else {
-    alert('Hey, Already added !')
+     sliders.splice(item,1);
+     element.classList.remove('added');
   }
 }
 var timer
@@ -68,12 +69,16 @@ const createSlider = () => {
   // hide image aria
   imagesArea.style.display = 'none';
   const duration = document.getElementById('duration').value|| 1000;
+  if(duration<= 0){
+    alert('please enter positive number')
+    return;
+  }
   sliders.forEach(slide => {
     let item = document.createElement('div')
     item.className = "slider-item";
-    item.innerHTML = `<img class="w-100"
-    src="${slide}"
-    alt="">`;
+    item.innerHTML = `
+    <img class="w-100" src="${slide}" alt="">
+    `;
     sliderContainer.appendChild(item)
   })
   changeSlide(0)
